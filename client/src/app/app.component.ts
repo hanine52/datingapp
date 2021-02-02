@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { Spinkit } from 'ng-http-loader';
 import { User } from './_models/user';
 import { AccountService } from './_services/account.service';
 
@@ -9,6 +10,7 @@ import { AccountService } from './_services/account.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit {
+  public spinkit = Spinkit;
   title = 'The dating app';
   users: any;
   constructor(private accountService: AccountService) {
