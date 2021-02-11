@@ -25,8 +25,11 @@ export class MembersService {
   }
 
   getMember(username: string) {
-    const member = this.members.find(x => x.username = username);
-    if (member !== undefined) return of(member) 
+    //if (this.members && this.members.length > 0) {
+       const member = this.members.find(x => x.username === username);
+       console.log('username from getMember', member);
+      if (member !== undefined) return of(member) 
+    //}
     return this.http.get<Member>(this.baseUrl +'users/' + username);
   }
 
@@ -37,5 +40,13 @@ export class MembersService {
         this.members[index] = member;
       })
     );
+  }
+
+  setMainPhoto(photoId: number) {
+    return this.http.put(this.baseUrl + 'users/set-main-photo/' + photoId, {});
+  }
+
+  deletePhoto(photoId: number) {
+    return this.http.delete(this.baseUrl + 'users/delete-photo/' + photoId);
   }
 }
