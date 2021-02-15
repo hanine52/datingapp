@@ -27,6 +27,7 @@
     "ng-http-loader": "^9.1.0",
     "ng2-file-upload": "^1.4.0",
     "ngx-bootstrap": "^6.2.0",
+    "ngx-timeago": "^2.0.0",
     "ngx-toastr": "^13.2.0",
     "rxjs": "~6.6.0",
     "terser": "3.14.1",
