@@ -43,7 +43,7 @@ export class UserManagementComponent implements OnInit {
           user.roles = [...rolesToUpdate.roles]
         })
       }
-    })
+    });
   }
 
   private getRolesArray(user) {
