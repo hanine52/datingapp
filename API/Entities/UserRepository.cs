@@ -55,6 +55,11 @@ namespace API.Entities
                 .AsNoTracking(), userParams.PageNumber, userParams.PageSize);
         }
 
+        public async Task<string> GetUserGender(string username)
+        {
+            return await _context.Users.Where(x => x.UserName == username).Select(x => x.Gender).FirstOrDefaultAsync();
+        }
+
         async Task<AppUser> IUserRepository.GetUserByIdAsync(int id)
         {
             return await _context.Users.FindAsync(id);
@@ -68,11 +73,6 @@ namespace API.Entities
         async Task<IEnumerable<AppUser>> IUserRepository.GetUsersAsync()
         {
             return await _context.Users.Include(p => p.Photos).ToListAsync();
-        }
-
-        async Task<bool> IUserRepository.SaveAllAsync()
-        {
-            return await _context.SaveChangesAsync() > 0;
         }
 
         void IUserRepository.Update(AppUser user)
