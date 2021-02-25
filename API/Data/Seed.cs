@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -36,6 +37,8 @@ namespace API.Data
 
             foreach(var user in users) 
             {
+
+                user.Photos.First().IsApproved = true;
                 // using var hmac = new HMACSHA512();
                 user.UserName = user.UserName.ToLower();
                 // user.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes("pa$$w0rd"));

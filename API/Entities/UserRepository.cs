@@ -26,12 +26,19 @@ namespace API.Entities
 
         }
 
-        public async Task<MemberDto> GetMemberAsync(string username)
-        {// projection
-            return await _context.Users
+        public async Task<MemberDto> GetMemberAsync(string username, bool? isCurrentUser)
+        {
+            var query = _context.Users
                 .Where(x => x.UserName == username)
                 .ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
-                .SingleOrDefaultAsync();
+                .AsQueryable();
+            bool newBool = isCurrentUser.HasValue ? isCurrentUser.Value : false;
+
+            if (newBool) query = query.IgnoreQueryFilters();
+            // bool newBool = x ?? false;
+            // bool newBool = x.HasValue && x.Value;
+
+            return await query.FirstOrDefaultAsync();
         }
 
         public async Task<PagedList<MemberDto>> GetMembersAsync(UserParams userParams)
@@ -53,6 +60,15 @@ namespace API.Entities
 
             return await PagedList<MemberDto>.CreateAsync(query.ProjectTo<MemberDto>(_mapper.ConfigurationProvider)
                 .AsNoTracking(), userParams.PageNumber, userParams.PageSize);
+        }
+
+        public async Task<AppUser> GetUserByPhotoId(int photoId)
+        {
+            return await _context.Users
+                .Include(p => p.Photos)
+                .IgnoreQueryFilters()
+                .Where(p => p.Photos.Any(p => p.Id == photoId))
+                .FirstOrDefaultAsync();
         }
 
         public async Task<string> GetUserGender(string username)
